@@ -94,7 +94,7 @@ namespace webapi.Controllers
         public IActionResult UpdatePartialapi(int id, JsonPatchDocument<WebapiDTO>_patch)
         {
             var webapi = WebapiStore.WebList.FirstOrDefault(item => item.Id.Equals(id));
-            if (id.Equals(0)||_patch is null || webapi is null)
+            if (id.Equals(0) || _patch is null || webapi is null)
                 return BadRequest();
 
             _patch.ApplyTo(webapi,ModelState);
