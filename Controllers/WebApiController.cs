@@ -34,11 +34,11 @@ namespace webapi.Controllers
 
             else return Ok(TestResult);
         }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
         public ActionResult<WebapiDTO> PostApi([FromBody] WebapiDTO _webapi)
         {
             if(WebapiStore.WebList.FirstOrDefault(item=>item.Name.ToLower()== _webapi.Name.ToLower())!=null)
@@ -57,10 +57,11 @@ namespace webapi.Controllers
 
             return CreatedAtRoute("GetAllApi", new { id = _webapi.Id }, _webapi);
         }
-        [HttpGet("{id:int}", Name = "DeleteApi")]
+
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpDelete("{id:int}", Name = "ApiDelete")]
         public IActionResult ApiDelete(int id)
         {
             var webapi = WebapiStore.WebList.FirstOrDefault(item => item.Id.Equals(id));
