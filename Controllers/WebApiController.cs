@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using webapi.Data;
 using webapi.Models;
 using webapi.Models.Dto;
@@ -86,6 +87,22 @@ namespace webapi.Controllers
                 webapi.Name = _apiDto.Name;
 
             return NoContent();
+        }
+
+        [HttpPatch("{id:int}",Name ="UpdatePartialApi")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult UpdatePartialapi(int id, JsonPatchDocument<WebapiDTO>_patch)
+        {
+            var webapi = WebapiStore.WebList.FirstOrDefault(item => item.Id.Equals(id));
+            if (id.Equals(0)||_patch is null || webapi is null)
+                return BadRequest();
+
+            _patch.ApplyTo(webapi,ModelState);
+
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            else
+                return NoContent();
         }
     }
 }
